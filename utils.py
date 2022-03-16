@@ -13,6 +13,7 @@ Cómo utilizarlo:
 """
 
 
+from socket import MsgFlag
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -55,6 +56,9 @@ def create_tables():
         msg = "Las tablas ya existen"
     return msg
 
+
+#---------------USER MANAGING-------------------------------------
+#-------CREATE USER --------------------
 def db_create_user(first_name, last_name, email, password, confirm_password):
     pass_cifr = generate_password_hash(password)
     same = check_password_hash(pass_cifr, confirm_password)
@@ -70,6 +74,47 @@ def db_create_user(first_name, last_name, email, password, confirm_password):
     return msg
 
 
+#------READ USER -------------------------
+def db_get_user(user):
+    try:
+        sql = f'SELECT * FROM USERS WHERE ID = {user}'    
+        c.execute(sql)
+        datos = c.fetchone()
+        if datos != None:
+            user= { 'id':datos[0], 'nombre': datos[1],'apellido': datos[2], 'email':datos[3], 'password':datos[4]}
+            print (user)
+            return user
+        else:
+                return {'mensaje':'cliente no encontrado'}
+    except Exception as ex: 
+        return {'mensaje':'Error de utils'}
+
+#----TODO UPDATE USER ------------------------
+#def update_user(user):
+#    try:
+#        1
+#
+#    except:
+
+
+
+#----TODO DELETE USER ------------------------
+
+def db_delete_user(user):
+    try:
+        sql = f'DELETE FROM users WHERE id = {user};'
+        c.execute(sql)
+        conn.commit()
+        msg = f'usuario {user} ha sido borrado exitosamente'
+        return msg
+    except Exception as ex:
+        return {f'mensaje':'El usuario {user} no se ha encontrado'}
+        
+
+
+
+#-----TASKS MANAGING--------------------------------------------------------------
+#-------CREATE TASK --------------------------
 
 def db_create_task(title, description, is_completed, user_asigned):
     try:
@@ -83,6 +128,8 @@ def db_create_task(title, description, is_completed, user_asigned):
         msg = 'Error al crear tarea en utils'
     return msg
 
+
+#-----READ TASK --------------------------------
 def db_get_task(user):
     try:
         query = f"SELECT * FROM tasks WHERE user_asigned= {user};"
@@ -99,17 +146,5 @@ def db_get_task(user):
         msg = 'mensaje Error  desde utils'
         return msg
 
-
-def db_get_user(user):
-    try:
-        sql = f'SELECT * FROM USERS WHERE ID = {user}'    
-        c.execute(sql)
-        datos = c.fetchone()
-        if datos != None:
-            user= { 'id':datos[0], 'nombre': datos[1],'apellido': datos[2], 'email':datos[3], 'password':datos[4]}
-            print (user)
-            return user
-        else:
-                return {'mensaje':'cliente no encontrado'}
-    except Exception as ex: 
-        return {'mensaje':'Error de utils'}
+#----TODO UPDATE TASK ------------------------
+#----TODO DELETE TASK ------------------------

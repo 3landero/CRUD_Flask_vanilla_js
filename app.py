@@ -1,4 +1,5 @@
 from ast import Return
+import json
 import utils
 from flask import Flask, jsonify, request, render_template
 
@@ -18,6 +19,7 @@ lista_empleados = [
     }
 ]
 
+#--------ROUTES
 @app.route(f'{PATH_BASE_API}/')
 def index_api():
     data = {
@@ -41,8 +43,10 @@ def create_table():
     resp = {"msg": msg}
     return resp
 
+#------------- USER MANAGING--------------------------#
 
 
+#-------- CREATE USER ---------------
 @app.route(f'{PATH_BASE_API}/user/create', methods=['GET', 'POST'])
 def create_user():
     if request.method == 'POST':
@@ -62,8 +66,36 @@ def create_user():
 
 
 
+#-------- READ USER ------------------
+@app.route(f'{PATH_BASE_API}/user/get/<int:user_id>',methods = ['GET'])
+def get_user(user_id):
+    if request.method == 'GET':
+        data = utils.db_get_user(user_id)
+        return jsonify({'user':data,'mensaje':'Cliente encontrado'})
+    elif request.method == 'POST':
+        return  jsonify({'msg':'consulta disponible solo con metodo GET'})
 
 
+
+# -----TODO UPDATE USER -------------
+
+#-----TODO DELETE USER---------------
+
+@app.route(f'{PATH_BASE_API}/user/delete/<int:user_id>', methods = ['DELETE', 'POST','PUT','GET'])
+def delete_user(user_id):
+    if request.method == 'DELETE':
+        msg = utils.db_delete_user(user_id)
+        return jsonify(msg)
+    else:
+        msg = "Por favor ejecute el metodo 'DELETE'"
+        return jsonify(msg)
+
+
+
+
+#-----TASKS MANAGING--------------------------------------------------
+
+#--CREATE TASK-----
 @app.route(f'{PATH_BASE_API}/task/create/<int:user_id>', methods=['GET', 'POST'])
 def create_task(user_id):
     if request.method == 'POST':
@@ -80,8 +112,7 @@ def create_task(user_id):
     }
 
     
-# TODO get task x user--------------------------------------------------------------------------------
-
+#----- READ TASKS PER USER -------
 @app.route(f'{PATH_BASE_API}/task/mytasks/<int:user_id>', methods = ['GET', 'POST'])
 def get_tasks(user_id):
     if request.method == 'GET':
@@ -94,16 +125,11 @@ def get_tasks(user_id):
         "msg": msg
     }
 
-#-------------------------------------------------------------------------------------------------------
 
+#-----TODO DELETE TASK---------------
 
-@app.route(f'{PATH_BASE_API}/user/get/<int:user_id>',methods = ['GET'])
-def get_user(user_id):
-    if request.method == 'GET':
-        data = utils.db_get_user(user_id)
-        return jsonify({'user':data,'mensaje':'Cliente encontrado'})
-    elif request.method == 'POST':
-        return  jsonify({'msg':'consulta disponible solo con metodo GET'})
+#-----TODO UPDATE TASK ---------------
+
 
 
 
