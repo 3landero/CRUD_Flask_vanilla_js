@@ -93,6 +93,7 @@ def db_get_task(user):
             task= {'title': fila[1],'description': fila[2], 'isComplete':fila[3]}
             tasks.append(task)
             print(tasks)
+        
         return {'tareas':tasks,'msg':'Task list'}
     except Exception as ex: 
         return {'mensaje':'Error  desde utils'}
