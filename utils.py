@@ -15,6 +15,7 @@ Cómo utilizarlo:
 
 from socket import MsgFlag
 import sqlite3
+from pymysql import DateFromTicks
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -87,18 +88,30 @@ def db_get_user(user):
         else:
                 return {'mensaje':'cliente no encontrado'}
     except Exception as ex: 
-        return {'mensaje':'Error de utils'}
+        return {'mensaje':'Error de Modulo: utils'}
+
+
 
 #----TODO UPDATE USER ------------------------
-#def update_user(user):
+#def db_update_user(id, first_name, last_name, email, password, confirm_password):
 #    try:
-#        1
+#        pass_cifr = generate_password_hash(password)
+#        same = check_password_hash(pass_cifr, confirm_password)
+#        #sql = f"UPDATE users SET first_name= '{first_name}', last_name = '{last_name} ' , email= '{email}', password='stupid_chicken@gmail.com' WHERE id = {id};"
+#        if same:
+#            query = ("UPDATE `users` SET VALUES (Null,?, ?, ?, ?) WHERE id = {id};")
+#            parameters = (first_name, last_name, email, pass_cifr)
+#            c.execute(query, parameters)
+#            conn.commit()
+#            msg = f'Usuario {id} actualizado exitosamente'
+#            print(query)
+#        else:
+#            msg = 'Las contraseñas no coinciden'
+#    except Exception as ex: 
+#        return {'mensaje':'Error de Modulo: utils'}
 #
-#    except:
 
-
-
-#----TODO DELETE USER ------------------------
+#---- DELETE USER ------------------------
 
 def db_delete_user(user):
     try:

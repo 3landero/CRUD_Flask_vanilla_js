@@ -78,8 +78,26 @@ def get_user(user_id):
 
 
 # -----TODO UPDATE USER -------------
+#@app.route(f'{PATH_BASE_API}/user/update/<int:user_id>', methods=['POST', 'PUT'])
+#def update_user(user_id):
+#    if request.method == 'PUT':
+#        data = request.json
+#        first_name = data['first_name']
+#        last_name = data['last_name']
+#        email = data['email']
+#        password = data['password']
+#        confirm_password = data['confirm_password']
+#        msg = utils.db_update_user(first_name, last_name, email, password, confirm_password)
+#    elif request.method == 'POST':
+#        msg = 'Este endpoint es para actualizar datos de usuarios preexistentes'
+#    return {
+#        "code": 200,
+#        "msg": msg
+#    }
 
-#-----TODO DELETE USER---------------
+
+
+#----- DELETE USER---------------
 
 @app.route(f'{PATH_BASE_API}/user/delete/<int:user_id>', methods = ['DELETE', 'POST','PUT','GET'])
 def delete_user(user_id):
