@@ -86,7 +86,7 @@ def create_task(user_id):
 def get_tasks(user_id):
     if request.method == 'GET':
         msg = utils.db_get_task(user_id)
-        return jsonify({msg})
+        return jsonify(msg)
     elif request.method == 'POST': 
         msg = 'consulta disponible solo con metodo GET'
     return {

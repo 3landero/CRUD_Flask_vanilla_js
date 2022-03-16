@@ -85,18 +85,19 @@ def db_create_task(title, description, is_completed, user_asigned):
 
 def db_get_task(user):
     try:
-        query = f"SELECT * FROM tasks WHERE id= {user};"
+        query = f"SELECT * FROM tasks WHERE user_asigned= {user};"
         c.execute(query)
-        datos = conn.fetchall()
+        datos = c.fetchall()
         tasks = []
         for fila in datos :
             task= {'title': fila[1],'description': fila[2], 'isComplete':fila[3]}
             tasks.append(task)
-            print(tasks)
-        
-        return {'tareas':tasks,'msg':'Task list'}
-    except Exception as ex: 
-        return {'mensaje':'Error  desde utils'}
+            tareas = {'tareas':tasks,'msg':'Task list'}
+        return tareas
+    except Exception as err: 
+        print(err)
+        msg = 'mensaje Error  desde utils'
+        return msg
 
 
 def db_get_user(user):
