@@ -93,23 +93,24 @@ def db_get_user(user):
 
 
 #----TODO UPDATE USER ------------------------
-#def db_update_user(id, first_name, last_name, email, password, confirm_password):
-#    try:
-#        pass_cifr = generate_password_hash(password)
-#        same = check_password_hash(pass_cifr, confirm_password)
-#        #sql = f"UPDATE users SET first_name= '{first_name}', last_name = '{last_name} ' , email= '{email}', password='stupid_chicken@gmail.com' WHERE id = {id};"
-#        if same:
-#            query = ("UPDATE `users` SET VALUES (Null,?, ?, ?, ?) WHERE id = {id};")
-#            parameters = (first_name, last_name, email, pass_cifr)
-#            c.execute(query, parameters)
-#            conn.commit()
-#            msg = f'Usuario {id} actualizado exitosamente'
-#            print(query)
-#        else:
-#            msg = 'Las contraseñas no coinciden'
-#    except Exception as ex: 
-#        return {'mensaje':'Error de Modulo: utils'}
-#
+def db_update_user(id, first_name, last_name, email, password, confirm_password):
+    try:
+        pass_cifr = generate_password_hash(password)
+        same = check_password_hash(pass_cifr, confirm_password)
+        print(same)
+        if same:
+            query = f"UPDATE users SET first_name= '{first_name}', last_name = '{last_name} ' , email= '{email}', password='{pass_cifr}' WHERE id = {id};"
+            #query = ("UPDATE `users` SET VALUES (Null,?, ?, ?, ?) WHERE id = {id};")
+            #parameters = (first_name, last_name, email, pass_cifr)
+            c.execute(query)
+            conn.commit()
+            msg = f'Usuario {id} actualizado exitosamente'
+            print(query)
+        else:
+            msg = 'Las contraseñas no coinciden'
+    except Exception as ex: 
+        return {'mensaje':'Error de Modulo: utils'}
+
 
 #---- DELETE USER ------------------------
 
@@ -160,4 +161,24 @@ def db_get_task(user):
         return msg
 
 #----TODO UPDATE TASK ------------------------
+#def db_update_task(id_task):
+#    try:
+#        sql = f'DELETE FROM task WHERE id = {id_task};'
+#        c.execute(sql)
+#        conn.commit()
+#        msg = f'tarea {id_task} ha sido borrado exitosamente'
+#        return msg
+#    except Exception as ex:
+#        return {f'mensaje':'La tarea {id_task} no se ha encontrado'}
+#
+
 #----TODO DELETE TASK ------------------------
+def db_delete_task(id_task):
+    try:
+        sql = f'DELETE FROM tasks WHERE id_task = {id_task};'
+        c.execute(sql)
+        conn.commit()
+        msg = f'La tarea num {id_task} ha sido borrada exitosamente'
+        return msg
+    except Exception as ex:
+        return {f'mensaje':'La tarea {id_task} no se ha encontrado'}

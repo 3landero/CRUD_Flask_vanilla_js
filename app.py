@@ -1,5 +1,3 @@
-from ast import Return
-import json
 import utils
 from flask import Flask, jsonify, request, render_template
 
@@ -78,22 +76,24 @@ def get_user(user_id):
 
 
 # -----TODO UPDATE USER -------------
-#@app.route(f'{PATH_BASE_API}/user/update/<int:user_id>', methods=['POST', 'PUT'])
-#def update_user(user_id):
-#    if request.method == 'PUT':
-#        data = request.json
-#        first_name = data['first_name']
-#        last_name = data['last_name']
-#        email = data['email']
-#        password = data['password']
-#        confirm_password = data['confirm_password']
-#        msg = utils.db_update_user(first_name, last_name, email, password, confirm_password)
-#    elif request.method == 'POST':
-#        msg = 'Este endpoint es para actualizar datos de usuarios preexistentes'
-#    return {
-#        "code": 200,
-#        "msg": msg
-#    }
+@app.route(f'{PATH_BASE_API}/user/update/<int:user_id>', methods=['POST', 'PUT'])
+def update_user(user_id):
+    if request.method == 'PUT':
+        data = request.json
+        print(data)
+        first_name = data['first_name']
+        last_name = data['last_name']
+        email = data['email']
+        password = data['password']
+        confirm_password = data['confirm_password']
+        msg = utils.db_update_user(user_id, first_name, last_name, email, password, confirm_password)
+        print(msg)
+    elif request.method == 'POST':
+        msg = 'Este endpoint es para actualizar datos de usuarios preexistentes'
+    return {
+        "code": 200,
+        "msg": msg
+    }
 
 
 
@@ -145,8 +145,18 @@ def get_tasks(user_id):
 
 
 #-----TODO DELETE TASK---------------
+@app.route(f'{PATH_BASE_API}/task/delete/<int:id_task>', methods = ['DELETE', 'POST','PUT','GET'])
+def delete_task(id_task):
+    if request.method == 'DELETE':
+        msg = utils.db_delete_task(id_task)
+        return jsonify(msg)
+    else:
+        msg = "Por favor ejecute el metodo 'DELETE'"
+        return jsonify(msg)
+
 
 #-----TODO UPDATE TASK ---------------
+
 
 
 
