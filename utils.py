@@ -58,7 +58,13 @@ def create_tables():
     return msg
 
 
+
+
+
+
 #---------------USER MANAGING-------------------------------------
+
+
 #-------CREATE USER --------------------
 def db_create_user(first_name, last_name, email, password, confirm_password):
     pass_cifr = generate_password_hash(password)
@@ -160,19 +166,19 @@ def db_get_task(user):
         msg = 'mensaje Error  desde utils'
         return msg
 
-#----TODO UPDATE TASK ------------------------
-#def db_update_task(id_task):
-#    try:
-#        sql = f'DELETE FROM task WHERE id = {id_task};'
-#        c.execute(sql)
-#        conn.commit()
-#        msg = f'tarea {id_task} ha sido borrado exitosamente'
-#        return msg
-#    except Exception as ex:
-#        return {f'mensaje':'La tarea {id_task} no se ha encontrado'}
-#
+#----UPDATE TASK ------------------------
+def db_update_task(id_task,title, description, isCompleted, user_asigned):
+    try:
+        query = f"UPDATE tasks SET title= '{title}', description = '{description} ' , isCompleted= '{isCompleted}', 'user_asigned'='{user_asigned}' WHERE id_task  = {id_task};"
+        c.execute(query)
+        conn.commit()
+        msg = f'Tarea {id_task} actualizada exitosamente'
+        return msg
+    except Exception as ex: 
+        return {'mensaje':'Error de Modulo: utils'}
 
-#----TODO DELETE TASK ------------------------
+
+#----DELETE TASK ------------------------
 def db_delete_task(id_task):
     try:
         sql = f'DELETE FROM tasks WHERE id_task = {id_task};'

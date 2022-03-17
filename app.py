@@ -157,7 +157,22 @@ def delete_task(id_task):
 
 #-----TODO UPDATE TASK ---------------
 
-
+@app.route(f'{PATH_BASE_API}/task/update/<int:id_task>', methods=['POST', 'PUT'])
+def update_task(id_task):
+    if request.method == 'PUT':
+        data = request.json
+        title = data['title']
+        description = data['description']
+        isCompleted = data['isCompleted']
+        user_asigned = data['user_asigned']
+        msg = utils.db_update_task(id_task, title, description, isCompleted, user_asigned)
+        print(msg)
+    elif request.method == 'POST':
+        msg = 'Este endpoint es para actualizar datos de tareas preexistentes'
+    return {
+        "code": 200,
+        "msg": msg
+    }
 
 
 
