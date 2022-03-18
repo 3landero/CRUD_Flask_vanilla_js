@@ -1,5 +1,6 @@
 import utils
 from flask import Flask, jsonify, request, render_template
+from empleado import Empleado
 
 PATH_BASE_API = "/api/v1"
 app = Flask(__name__)
@@ -17,7 +18,19 @@ lista_empleados = [
     }
 ]
 
-#--------ROUTES
+
+
+empleados = 'http://127.0.0.1:5000/api/v1/user/get/allusers'
+empleados_objects= []
+for empleado in empleados:
+    emp_obj = Empleado(empleado['id'],empleado['first_name'], empleado['last_name'], empleado['email'], empleado['password'] )
+    empleados_objects.append(emp_obj)
+
+
+
+#--------ROUTES MANAGING--------
+
+#------API INDEX  http://127.0.0.1:5000/api/v1/  ------
 @app.route(f'{PATH_BASE_API}/')
 def index_api():
     data = {
@@ -27,12 +40,14 @@ def index_api():
     return jsonify(data)
 
 
-
+#------render INDEX HTML -------
 @app.route('/')    
 def index():
     return render_template('index.html')
 
-
+@app.route('/registro')
+def render_register():
+    return render_template('form.html')
 
 
 @app.route(f'{PATH_BASE_API}/create-tables')
@@ -42,7 +57,6 @@ def create_table():
     return resp
 
 #------------- USER MANAGING--------------------------#
-
 
 #-------- CREATE USER ---------------
 @app.route(f'{PATH_BASE_API}/user/create', methods=['GET', 'POST'])
@@ -72,6 +86,16 @@ def get_user(user_id):
         return jsonify({'user':data,'mensaje':'Cliente encontrado'})
     elif request.method == 'POST':
         return  jsonify({'msg':'consulta disponible solo con metodo GET'})
+
+
+@app.route(f'{PATH_BASE_API}/user/get/allusers',methods = ['GET'])
+def get_all_users():
+    if request.method == 'GET':
+        data = utils.db_get_all_users()
+        return jsonify({'user':data,'mensaje':'reporte exitoso'})
+    elif request.method == 'POST':
+        return  jsonify({'msg':'consulta disponible solo con metodo GET'})
+
 
 
 
