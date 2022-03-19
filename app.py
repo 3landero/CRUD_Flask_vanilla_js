@@ -19,13 +19,13 @@ lista_empleados = [
 ]
 
 
-
-empleados = 'http://127.0.0.1:5000/api/v1/user/get/allusers'
-empleados_objects= []
-for empleado in empleados:
-    emp_obj = Empleado(empleado['id'],empleado['first_name'], empleado['last_name'], empleado['email'], empleado['password'] )
-    empleados_objects.append(emp_obj)
-
+#
+#empleados = 'http://127.0.0.1:5000/api/v1/user/get/allusers'
+#empleados_objects= []
+#for empleado in empleados:
+#    emp_obj = Empleado(empleado['id'],empleado['first_name'], empleado['last_name'], empleado['email'], empleado['password'] )
+#    empleados_objects.append(emp_obj)
+#
 
 
 #--------ROUTES MANAGING--------
@@ -88,11 +88,14 @@ def get_user(user_id):
         return  jsonify({'msg':'consulta disponible solo con metodo GET'})
 
 
+
+
+#--------read all users---------
 @app.route(f'{PATH_BASE_API}/user/get/allusers',methods = ['GET'])
 def get_all_users():
     if request.method == 'GET':
         data = utils.db_get_all_users()
-        return jsonify({'user':data,'mensaje':'reporte exitoso'})
+        return jsonify({'users':data,'mensaje':'reporte exitoso'})
     elif request.method == 'POST':
         return  jsonify({'msg':'consulta disponible solo con metodo GET'})
 

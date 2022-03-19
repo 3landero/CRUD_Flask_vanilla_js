@@ -102,14 +102,13 @@ def db_get_all_users():
         sql = f'SELECT * FROM users;'    
         c.execute(sql)
         datos = c.fetchall()
-        print(datos)
         users=[]
         for row in datos:
             user= { 'id':row[0], 'nombre': row[1],'apellido': row[2], 'email':row[3], 'password':row[4]}
             users.append(user)
-            return users
-        else:
-                return {'mensaje':'cliente no encontrado'}
+        return users
+        
+        
     except Exception as ex: 
         return {'mensaje':'Error de Modulo: utils'}
 
