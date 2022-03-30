@@ -127,7 +127,7 @@ def db_update_user(id, first_name, last_name, email, password, confirm_password)
             c.execute(query)
             conn.commit()
             msg = f'Usuario {id} actualizado exitosamente'
-            print(query)
+            print(msg)
         else:
             msg = 'Las contraseñas no coinciden'
     except Exception as ex: 

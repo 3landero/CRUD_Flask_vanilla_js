@@ -1,5 +1,7 @@
 import utils
 from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS,cross_origin
+
 from empleado import Empleado
 
 PATH_BASE_API = "/api/v1"
@@ -39,6 +41,8 @@ def index_api():
     }
     return jsonify(data)
 
+CORS(app)
+#CORS(app, resources={r"/cursos/*":{"origins":"http://localhost"}})
 
 #------render INDEX HTML -------
 @app.route('/')    
@@ -47,7 +51,7 @@ def index():
 
 @app.route('/registro')
 def render_register():
-    return render_template('form.html')
+    return render_template('CRUD.html')
 
 
 @app.route(f'{PATH_BASE_API}/create-tables')
@@ -59,10 +63,13 @@ def create_table():
 #------------- USER MANAGING--------------------------#
 
 #-------- CREATE USER ---------------
+#@cross_origin
 @app.route(f'{PATH_BASE_API}/user/create', methods=['GET', 'POST'])
 def create_user():
     if request.method == 'POST':
+        
         data = request.json
+        print(data)
         first_name = data['first_name']
         last_name = data['last_name']
         email = data['email']
