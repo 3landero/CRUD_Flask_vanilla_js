@@ -28,8 +28,8 @@ btnCrear.addEventListener('click', ()=>{
 
 //Function that shows all the registers
 
-const mostrar = (data)=> {
-    const {users} = data;
+const mostrar = (users)=> {
+   // const {users} = data;
     users.forEach(user => {
         resultados += 
         `<tr>
@@ -45,11 +45,17 @@ const mostrar = (data)=> {
 
 
 //MOSTRAR TODOS LOS REGISTROS
-
-fetch(url)
+const getAll =()=>{
+    fetch(url)
     .then(response => response.json())
-    .then(data=> mostrar(data))
+    .then(data=> {
+        let {users} = data;
+        mostrar(users)
+    })
     .catch(error=> console.log(error));
+}
+
+getAll()
 
 
 
@@ -125,10 +131,9 @@ formUsuario.addEventListener('submit', (e)=>{
         .then(response => response.json())
         .then(data =>{
             const nuevoUser = [];
-            nuevoUser.push(data);
-            mostrar(nuevoUser); 
-            
+            nuevoUser.push(data);  
         })
+        .then(response => location.reload())
         
         
         
